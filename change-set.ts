@@ -1,11 +1,94 @@
-import {HasOne} from "./has-one";
-import {HasMany} from "./has-many";
-import {Attribute} from "./attribute";
+export function attr() {
+    return (target, key) => {
+        // Register keys with the class
+        target.registerAttribute(key, undefined);
 
-const classAttributeMap = new Map<String, String[]>();
+        Object.defineProperty(target, key, {
+            get() {
+                return this.attributeFor(key)?.value;
+            },
+            set(newValue: unknown) {
+                this.attributeFor(key).value = newValue;
+            }
+        });
+    };
+}
+
+export function hasOne() {
+    return (target, key) => {
+        // Register keys with the class
+        target.registerHasOne(key, undefined);
+
+        Object.defineProperty(target, key, {
+            get() {
+                return this.attributeFor(key)?.value;
+            },
+            set(newValue: unknown) {
+                this.attributeFor(key).value = newValue;
+            }
+        });
+    };
+}
+
+export function hasMany() {
+    return (target, key) => {
+        // Register keys with the class
+        target.registerHasMany(key, undefined);
+
+        Object.defineProperty(target, key, {
+            get() {
+                return this.attributeFor(key)?.value;
+            },
+            set(newValue: unknown) {
+                this.attributeFor(key).value = newValue;
+            }
+        });
+    };
+}
+
+
+class Attribute {
+    mixed: boolean = false;
+    _value: unknown;
+    _initialValue: unknown;
+
+    constructor(value) {
+        this._value = value;
+        this._initialValue = value;
+    }
+
+    get value() {
+        return this._value;
+    }
+
+    set value(value: any) {
+        this._value = value;
+    }
+
+    get dirty() {
+        return this._initialValue !== this._value;
+    }
+
+    reset() {
+        this._value = this._initialValue;
+    }
+
+}
+
+class HasOne {
+    mixed: boolean = false;
+}
+
+class HasMany {
+    mixed: boolean = false;
+}
+
+const classAttributeMap = new Map<Function, string[]>();
+const classHasManyMap = new Map<Function, string[]>();
+const classHasOneMap = new Map<Function, string[]>();
 
 export class ChangeSet {
-    _hasOnes: Map<HasOne, HasMany>;
+    _hasOnes: Map<string, HasMany>;
 
     // These are just here to imagine how things might work in the future, you could probably
     // do something interesting and recursive to compute dirtiness / changes, but more work than
@@ -16,7 +99,7 @@ export class ChangeSet {
     // I don't understand TS enough here to make this work in a _more correct_ sorta way, I
     // think you could do something with record objects but I'm pretty green still.
     constructor(args: unknown = {}) {
-        const attributesNames = classAttributeMap.get(this.constructor.name) ?? [];
+        const attributesNames = classAttributeMap.get(this.constructor) ?? [];
         attributesNames.forEach(attributeName => {
             // @ts-ignore
             const value = args[attributeName] || this[attributeName];
@@ -26,10 +109,22 @@ export class ChangeSet {
     }
 
     registerAttribute(name: string, value: Attribute) {
+        this._register(name, value, classAttributeMap)
+    }
+
+    registerHasOne(name: string, value: Attribute) {
+        this._register(name, value, classHasOneMap)
+    }
+
+    registerHasMany(name: string, value: Attribute) {
+        this._register(name, value, classHasManyMap)
+    }
+
+    _register(name: string, value: Attribute, map: Map<Function, string[]>) {
         if (!value) {
-            const arr = classAttributeMap.get(this.constructor.name) ?? [];
+            const arr = map.get(this.constructor) ?? [];
             arr.push(name)
-            classAttributeMap.set(this.constructor.name, arr);
+            map.set(this.constructor, arr);
         }
         else {
             this.attributes.set(name, value);

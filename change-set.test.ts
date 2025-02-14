@@ -1,14 +1,11 @@
 import {describe, it, expect} from 'vitest';
-import {ChangeSet} from "./change-set";
-// import {hasMany} from "./has-many";
-// import {hasOne} from "./has-one";
-import {attr} from "./attribute";
+import {attr, ChangeSet, hasMany, hasOne} from "./change-set";
 
 export class User extends ChangeSet {
     @attr() name: string;
     @attr() age: number;
-    // @hasOne user: User;
-    // @hasMany users: User[];
+    @hasOne() user: User;
+    @hasMany() users: User[];
 }
 
 describe('ChangeSet', () => {
@@ -29,7 +26,7 @@ describe('ChangeSet', () => {
         expect(change.changes).toEqual({name: 'Jane'});
     });
 
-    it('should allow resetting changes of an attribute', ()    => {
+    it('should allow resetting changes of an attribute', () => {
         const change = new User({name: 'John', age: 25});
         change.name = 'Jane';
         expect(change.changes).toEqual({name: 'Jane'});
@@ -38,7 +35,7 @@ describe('ChangeSet', () => {
         expect(change.dirty).to.equal(false);
     });
 
-    it('should allow resetting changes of all attributes', ()    => {
+    it('should allow resetting changes of all attributes', () => {
         const change = new User({name: 'John', age: 25});
         change.name = 'Jane';
         expect(change.changes).toEqual({name: 'Jane'});
@@ -48,12 +45,12 @@ describe('ChangeSet', () => {
         expect(change.dirty).to.equal(false);
     })
 
-    it('should allow enumeration of all attribute keys', ()    => {
+    it('should allow enumeration of all attribute keys', () => {
         const change = new User({name: 'John', age: 25});
         expect(change.attributesNames).toEqual(['name', 'age']);
     });
 
-    it('should express its changes as a hash', ()    => {
+    it('should express its changes as a hash', () => {
         const change = new User({name: 'John', age: 25});
         change.name = 'Jane';
         change.age = 30;
