@@ -1,7 +1,7 @@
 import {describe, it, expect} from 'vitest';
 import {ChangeSet} from "./change-set";
-import {hasMany} from "./has-many";
-import {hasOne} from "./has-one";
+// import {hasMany} from "./has-many";
+// import {hasOne} from "./has-one";
 import {attr} from "./attribute";
 
 export class User extends ChangeSet {
@@ -21,7 +21,6 @@ describe('ChangeSet', () => {
 
     it('should track changes of the attributes', () => {
         const change = new User({name: 'John', age: 25});
-
         expect(change.attributeFor('name').value).toEqual('John');
         expect(change.attributeFor('name').dirty).toEqual(false);
         change.name = 'Jane';
@@ -65,7 +64,7 @@ describe('ChangeSet', () => {
         const change1 = new User({name: 'John', age: 25});
         const change2 = new User({name: 'Jane', age: 25});
         const change3 = User.fromArray([change1, change2]);
-        expect(change3.attributeFor('age').value).to.equal(25);
-        expect(change3.attributeFor('name').value).to.equal('mixed');
+        expect(change3.attributeFor('age').mixed).to.equal(false);
+        expect(change3.attributeFor('name').mixed).to.equal(true);
     });
 });

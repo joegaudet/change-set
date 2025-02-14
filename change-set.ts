@@ -6,13 +6,21 @@ const classAttributeMap = new Map<String, String[]>();
 
 export class ChangeSet {
     _hasOnes: Map<HasOne, HasMany>;
+
+    // These are just here to imagine how things might work in the future, you could probably
+    // do something interesting and recursive to compute dirtiness / changes, but more work than
+    // I wanna do today
     _hasManies: Map<string, HasMany>;
     _attributes: Map<string, Attribute>;
 
+    // I don't understand TS enough here to make this work in a _more correct_ sorta way, I
+    // think you could do something with record objects but I'm pretty green still.
     constructor(args: unknown = {}) {
         const attributesNames = classAttributeMap.get(this.constructor.name) ?? [];
         attributesNames.forEach(attributeName => {
+            // @ts-ignore
             const value = args[attributeName] || this[attributeName];
+            // @ts-ignore
             this.registerAttribute(attributeName, new Attribute(value));
         })
     }
@@ -78,7 +86,7 @@ export class ChangeSet {
             .forEach((attrName) => {
                 const initialValue = from[0][attrName];
                 const attr = retVal.attributeFor(attrName);
-                attr.value = from.every((cs) => cs[attrName] === initialValue) ? initialValue : 'mixed';
+                attr.mixed = !from.every((cs) => cs[attrName] === initialValue);
             })
 
         return retVal;
