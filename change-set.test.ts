@@ -60,7 +60,7 @@ describe('ChangeSet', () => {
         expect(change.changes).toEqual({name: 'Jane', age: 30});
     });
 
-    it('should allow being constructed from an array of hashes, marking attributes that are not equal amongs the hashes as mixed', () => {
+    it('should allow being constructed from an array of records, marking attributes that are not equal amongst the ojects as mixed', () => {
         const change1 = new User({name: 'John', age: 25});
         const change2 = new User({name: 'Jane', age: 25});
         const change3 = User.fromArray([change1, change2]);
