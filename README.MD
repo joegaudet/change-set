@@ -1,7 +1,12 @@
 # Change Set
 
 An attempt at type safe ChangeSets, seems the compiler is happy enough with the exception oif the
-chaange-set constructor where I had to supress the warnings.
+change-set constructor where I had to suppress the warnings. Large limitation it will not check any 
+of the types of the constructor hash, but will all the mutators. 
+
+Given TS decorators seem to be a bit all over the place might not be ready for prime time, but
+comports to the existing ES decorator proposal spec.
+
 
 ## Super basic usage
 ```typescript

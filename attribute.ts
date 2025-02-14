@@ -20,8 +20,6 @@ export class Attribute {
     _value: unknown;
     _initialValue: unknown;
 
-    changed: boolean = false;
-
     constructor(value) {
         this._value = value;
         this._initialValue = value;
@@ -32,7 +30,6 @@ export class Attribute {
     }
 
     set value(value: any) {
-        this.changed = value !== this._initialValue;
         this._value = value;
     }
 
