@@ -1,0 +1,42 @@
+# change-set
+
+> Type-safe change sets for TypeScript. Subclass `ChangeSet`, mark fields with `@attr()`, and
+> every assignment is tracked: `dirty`, `changes` and `reset()` on the instance, `value`,
+> `dirty`, `mixed` and `reset()` on each attribute. `ChangeSet.fromArray(records)` marks the
+> attributes the records disagree on as `mixed`, for editing several records at once.
+
+change-set is experimental and not published to npm. It is one file, `change-set.ts`; copy it
+into a project compiled with `experimentalDecorators: true` (it uses TypeScript's legacy
+decorators).
+
+## Usage
+
+```ts
+import {attr, ChangeSet} from './change-set';
+
+class User extends ChangeSet {
+    @attr() name: string;
+    @attr() age: number;
+}
+
+const user = new User({name: 'Joe', age: 25});
+user.name = 'John';
+user.attributeFor('name').dirty; // true
+user.changes;                    // {name: 'John'}
+user.reset();
+user.name;                       // 'Joe'
+```
+
+## Limits
+
+- The constructor's hash is not type checked; the property setters are.
+- A falsy value in the constructor hash (`0`, `''`, `false`) starts the attribute at `undefined`.
+- `@hasOne()` and `@hasMany()` are placeholders: the property reads `undefined` and assigning
+  to it throws.
+
+## Docs
+
+- [API reference](https://joegaudet.com/change-set/api/): every export, generated from the source
+- [llms-full.txt](https://joegaudet.com/change-set/api/llms-full.txt): this file plus the whole API reference as Markdown
+- [api.json](https://joegaudet.com/change-set/api/api.json): the TypeDoc model, for tools
+- [Source and README](https://github.com/joegaudet/change-set)

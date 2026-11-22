@@ -38,3 +38,12 @@ const user3 = User.fromArray([user1, user2])
 user3.attributeFor('age').mixed // false 
 user3.attributeFor('name').mixed // true 
 ```
+
+## Docs
+
+The site is at https://joegaudet.com/change-set/ and the API reference at
+https://joegaudet.com/change-set/api/. The reference is generated from the doc comments in
+`change-set.ts` with TypeDoc: `npm run docs:api` writes it to `docs/api/`. Every export needs a
+doc comment; `npm test` builds the reference with warnings as errors, so CI fails on an
+undocumented one. `docs/site/` is hand-written HTML, published with the reference by
+`.github/workflows/pages.yml`.

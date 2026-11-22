@@ -1,9 +1,13 @@
 {
+  "homepage": "https://joegaudet.com/change-set/",
   "devDependencies": {
+    "typedoc": "^0.28.20",
+    "typedoc-plugin-markdown": "^4.14.1",
     "typescript": "^5.7.3",
     "vitest": "^3.0.5"
   },
   "scripts": {
-    "test": "vitest"
+    "test": "vitest",
+    "docs:api": "typedoc && node scripts/llms-full.mjs"
   }
 }
