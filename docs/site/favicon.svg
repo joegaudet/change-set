@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="t">
+  <title id="t">change-set</title>
+  <style>
+    .a { stop-color: #ea580c; }
+    .b { stop-color: #9a3412; }
+    @media (prefers-color-scheme: dark) {
+      .a { stop-color: #f97316; }
+      .b { stop-color: #c2410c; }
+    }
+  </style>
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop class="a" offset="0"/>
+      <stop class="b" offset="1"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="url(#g)"/>
+  <!-- the initial value, faded; the changed value, solid, with its dirty marker -->
+  <rect x="12" y="15" width="40" height="11" rx="5.5" fill="#fff" fill-opacity="0.4"/>
+  <rect x="12" y="38" width="40" height="11" rx="5.5" fill="#fff"/>
+  <circle cx="44.5" cy="43.5" r="3.5" fill="#0284c7"/>
+</svg>

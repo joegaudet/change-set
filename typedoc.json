@@ -1,0 +1,53 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "name": "change-set",
+  "entryPointStrategy": "resolve",
+  "entryPoints": [
+    "change-set.ts"
+  ],
+  "tsconfig": "tsconfig.docs.json",
+  "validation": {
+    "notExported": true,
+    "invalidLink": true,
+    "notDocumented": true
+  },
+  "requiredToBeDocumented": [
+    "Enum",
+    "Variable",
+    "Function",
+    "Class",
+    "Interface",
+    "TypeAlias",
+    "Method",
+    "Accessor"
+  ],
+  "outputs": [
+    {
+      "name": "html",
+      "path": "docs/api"
+    },
+    {
+      "name": "markdown",
+      "path": "docs/api-md"
+    },
+    {
+      "name": "json",
+      "path": "docs/api/api.json"
+    }
+  ],
+  "plugin": [
+    "typedoc-plugin-markdown",
+    "./scripts/typedoc-site.mjs"
+  ],
+  "readme": "none",
+  "hostedBaseUrl": "https://joegaudet.com/change-set/api/",
+  "customCss": "docs/api.css",
+  "favicon": "docs/site/favicon.svg",
+  "navigationLinks": {
+    "Home": "https://joegaudet.com/change-set/",
+    "GitHub": "https://github.com/joegaudet/change-set"
+  },
+  "excludeInternal": true,
+  "excludePrivate": true,
+  "treatWarningsAsErrors": true
+}

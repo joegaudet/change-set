@@ -1,0 +1,354 @@
+/* Additions on top of Pico; everything else is its defaults. */
+
+/* Brand palette, shared with favicon.svg. */
+:root {
+  --brand-orange: #ea580c;
+  --brand-sky: #0284c7;
+  --brand-ink: #0f172a;
+  --brand-ink-light: #f8fafc;
+  --pico-font-family-sans-serif:
+    Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --pico-font-family: var(--pico-font-family-sans-serif);
+}
+
+/* Same selectors as Pico so these win by source order. */
+:root:not([data-theme='dark']),
+[data-theme='light'] {
+  --pico-primary: #ea580c;
+  --pico-primary-background: #ea580c;
+  --pico-primary-border: #ea580c;
+  --pico-primary-underline: rgb(234 88 12 / 0.5);
+  --pico-primary-hover: #c2410c;
+  --pico-primary-hover-background: #c2410c;
+  --pico-primary-hover-border: #c2410c;
+  --pico-primary-hover-underline: #c2410c;
+  --pico-primary-focus: rgb(234 88 12 / 0.4);
+  --pico-primary-inverse: #fff;
+  --pico-text-selection-color: rgb(234 88 12 / 0.25);
+}
+
+@media only screen and (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --pico-primary: #fb923c;
+    --pico-primary-background: #ea580c;
+    --pico-primary-border: #ea580c;
+    --pico-primary-underline: rgb(251 146 60 / 0.5);
+    --pico-primary-hover: #fdba74;
+    --pico-primary-hover-background: #c2410c;
+    --pico-primary-hover-border: #c2410c;
+    --pico-primary-hover-underline: #fdba74;
+    --pico-primary-focus: rgb(251 146 60 / 0.4);
+    --pico-primary-inverse: #fff;
+    --pico-text-selection-color: rgb(251 146 60 / 0.3);
+  }
+}
+
+[data-theme='dark'] {
+  --pico-primary: #fb923c;
+  --pico-primary-background: #ea580c;
+  --pico-primary-border: #ea580c;
+  --pico-primary-underline: rgb(251 146 60 / 0.5);
+  --pico-primary-hover: #fdba74;
+  --pico-primary-hover-background: #c2410c;
+  --pico-primary-hover-border: #c2410c;
+  --pico-primary-hover-underline: #fdba74;
+  --pico-primary-focus: rgb(251 146 60 / 0.4);
+  --pico-primary-inverse: #fff;
+  --pico-text-selection-color: rgb(251 146 60 / 0.3);
+}
+
+/* Spacing scale. Every gap on the page comes from these. */
+:root {
+  --space-gutter: clamp(1rem, 4vw, 2rem);
+  --space-section: clamp(4rem, 9vw, 7rem);
+  --space-block: 2.5rem; /* section intro to its content */
+  --measure: 42rem; /* readable line length */
+}
+
+/* One fluid content width for nav, hero, sections and footer, replacing Pico's
+   stepped max-widths, which drop the side padding from 576px up. */
+.container {
+  max-width: calc(1200px + 2 * var(--space-gutter));
+  padding-inline: var(--space-gutter);
+}
+
+/* Eyebrow labels above headings */
+.eyebrow {
+  margin-bottom: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--pico-primary);
+}
+
+/* Sticky nav */
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--pico-background-color);
+  background: color-mix(in srgb, var(--pico-background-color) 80%, transparent);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--pico-muted-border-color);
+}
+
+.site-nav > .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Keeps the nav on one row at phone width. */
+@media (max-width: 575px) {
+  .site-nav .wide-only {
+    display: none;
+  }
+}
+
+.site-nav a {
+  color: var(--pico-muted-color);
+  font-weight: 500;
+}
+
+.site-nav a:hover {
+  color: var(--pico-color);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.brand-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: inherit;
+}
+
+/* Hero band: dark in both schemes. */
+.hero-band {
+  --pico-color: #f8fafc;
+  --pico-h1-color: #f8fafc;
+  --pico-muted-color: #cbd5e1;
+  --pico-primary: #fb923c;
+  position: relative;
+  isolation: isolate;
+  padding-block: 0;
+  overflow: hidden;
+  background-color: #0b0b14;
+  color: var(--pico-color);
+}
+
+/* Faint grid, faded out towards the edges. */
+.hero-band::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(rgb(255 255 255 / 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  -webkit-mask-image: radial-gradient(ellipse at 50% 40%, #000 25%, transparent 75%);
+  mask-image: radial-gradient(ellipse at 50% 40%, #000 25%, transparent 75%);
+}
+
+.hero-band::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(40rem 28rem at 75% 45%, rgb(234 88 12 / 0.28), transparent 70%);
+}
+
+.hero {
+  display: grid;
+  gap: clamp(2.5rem, 5vw, 4rem);
+  align-items: center;
+  padding-block: var(--space-section);
+}
+
+/* Lets the install pill scroll inside its column instead of widening the page. */
+.hero > *,
+.hero-copy > * {
+  min-width: 0;
+}
+
+.hero h1 {
+  margin-bottom: 1.25rem;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, #fb923c, #38bdf8);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero-sub {
+  max-width: 36rem;
+  margin-bottom: 2rem;
+  font-size: 1.125rem;
+  color: var(--pico-muted-color);
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.hero-actions [role='button'] {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+}
+
+.hero-actions .ghost {
+  --pico-background-color: transparent;
+  --pico-border-color: rgb(255 255 255 / 0.25);
+  --pico-color: #f8fafc;
+}
+
+.hero-actions .ghost:is(:hover, :focus-visible) {
+  --pico-background-color: rgb(255 255 255 / 0.06);
+  --pico-border-color: rgb(255 255 255 / 0.5);
+  --pico-color: #fff;
+}
+
+.install {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  max-width: 100%;
+  width: fit-content;
+  padding: 0.6rem 1.25rem;
+  overflow-x: auto;
+  border: 1px solid rgb(255 255 255 / 0.12);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.04);
+  font-family: var(--pico-font-family-monospace);
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.install .prompt {
+  color: #64748b;
+  user-select: none;
+}
+
+.install code {
+  padding: 0;
+  background: none;
+  color: #e2e8f0;
+  font-size: inherit;
+}
+
+.install-note {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+/* Section rhythm: one gap between sections, never doubled. */
+body > main {
+  padding-block: 0 var(--space-section);
+}
+
+main > section {
+  margin: 0;
+  padding-top: var(--space-section);
+}
+
+main > section > h2 {
+  margin-bottom: 1rem;
+  font-size: clamp(1.75rem, 3.5vw, 2.25rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+/* The intro paragraph under a heading: readable width, then a fixed gap. */
+main > section > h2 + p {
+  max-width: var(--measure);
+  margin-bottom: var(--space-block);
+  font-size: 1.0625rem;
+  color: var(--pico-muted-color);
+}
+
+main > section > h2:not(:has(+ p)) {
+  margin-bottom: var(--space-block);
+}
+
+main > section > h3 {
+  margin-block: var(--space-block) 0.75rem;
+}
+
+main > section p {
+  max-width: var(--measure);
+}
+
+/* Footer */
+body > footer {
+  border-top: 1px solid var(--pico-muted-border-color);
+  padding-block: 2.5rem;
+  color: var(--pico-muted-color);
+}
+
+body > footer a {
+  color: inherit;
+}
+
+/* The row of sibling projects under the footer's own links. */
+body > footer .family {
+  margin: 0.5rem 0 0;
+}
+
+body > footer [aria-current='page'] {
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* Code blocks: one editor-style surface in both schemes. Pico pads the inner
+   <code> and Prism pads the <pre>; only the <pre> pads here, so indents don't double. */
+pre,
+pre[class*='language-'] {
+  margin: 0 0 var(--pico-typography-spacing-vertical);
+  padding: 1.25rem 1.5rem;
+  overflow-x: auto;
+  border: 1px solid rgb(255 255 255 / 0.08);
+  border-radius: 12px;
+  background: #0d1117;
+  color: #e2e8f0;
+  font-size: clamp(0.75rem, 0.65rem + 0.35vw, 0.875rem);
+  line-height: 1.65;
+  tab-size: 2;
+}
+
+pre > code,
+pre > code[class*='language-'] {
+  display: block;
+  padding: 0;
+  background: none;
+  color: inherit;
+  font-family: var(--pico-font-family-monospace);
+  font-size: inherit;
+  line-height: inherit;
+  text-shadow: none;
+  /* Wrap long lines instead of scrolling sideways. */
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+:root:not([data-theme='dark']) pre {
+  border-color: transparent;
+}
